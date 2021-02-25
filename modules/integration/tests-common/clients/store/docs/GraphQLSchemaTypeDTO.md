@@ -1,7 +1,9 @@
 
+
 # GraphQLSchemaTypeDTO
 
 ## Properties
+
 Name | Type | Description | Notes
 ------------ | ------------- | ------------- | -------------
 **type** | **String** | Type found within the GraphQL Schema  |  [optional]

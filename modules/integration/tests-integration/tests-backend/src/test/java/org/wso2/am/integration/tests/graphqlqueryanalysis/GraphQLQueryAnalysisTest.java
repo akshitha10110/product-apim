@@ -112,7 +112,8 @@ public class GraphQLQueryAnalysisTest extends APIMIntegrationBaseTest {
         System.out.println(createdApiResponse.getData());
         assertEquals(Response.Status.OK.getStatusCode(), createdApiResponse.getResponseCode(),
                 GRAPHQL_API_NAME + " API creation is failed");
-
+        // Create Revision and Deploy to Gateway
+        createAPIRevisionAndDeployUsingRest(graphqlApiId, restAPIPublisher);
         // publish api
         restAPIPublisher.changeAPILifeCycleStatus(graphqlApiId, Constants.PUBLISHED);
         waitForAPIDeploymentSync(user.getUserName(), GRAPHQL_API_NAME, API_VERSION_1_0_0,
@@ -262,6 +263,7 @@ public class GraphQLQueryAnalysisTest extends APIMIntegrationBaseTest {
         subscriptionThrottlePolicyDTO.setIsDeployed(true);
         subscriptionThrottlePolicyDTO.setGraphQLMaxComplexity(4);
         subscriptionThrottlePolicyDTO.setGraphQLMaxDepth(2);
+        subscriptionThrottlePolicyDTO.setSubscriberCount(0);
 
         ThrottleLimitDTO throttleLimitDTO = new ThrottleLimitDTO();
         throttleLimitDTO.setType(ThrottleLimitDTO.TypeEnum.valueOf("REQUESTCOUNTLIMIT"));
@@ -288,6 +290,7 @@ public class GraphQLQueryAnalysisTest extends APIMIntegrationBaseTest {
     public void destroy() throws Exception {
         restAPIStore.deleteApplication(oauthTokenTestApiId);
         restAPIStore.deleteApplication(tokenTestApiAppId);
+        undeployAndDeleteAPIRevisionsUsingRest(graphqlApiId, restAPIPublisher);
         restAPIPublisher.deleteAPI(graphqlApiId);
         super.cleanUp();
     }

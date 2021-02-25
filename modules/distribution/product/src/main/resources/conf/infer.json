@@ -7,14 +7,8 @@
       "apim.throttling.enable_blacklist_condition": true,
       "indexing.enable": false,
       "system.parameter.profile": "gateway-worker",
-      "enabled_global_handlers": [
-        "external_call_logger",
-        "open_tracing"
-      ],
-      "synapse_handlers.external_call_logger.name": "externalCallLogger",
-      "synapse_handlers.external_call_logger.class": "org.wso2.carbon.apimgt.gateway.handlers.LogsHandler",
-      "synapse_handlers.open_tracing.name": "open_tracing",
-      "synapse_handlers.open_tracing.class": "org.wso2.carbon.apimgt.gateway.handlers.common.APIMgtLatencySynapseHandler",
+      "synapse_handlers.external_call_logger.enabled": true,
+      "synapse_handlers.open_tracing.enabled": true,
       "apim.key_manager.enable_registration": false
     },
     "api-key-manager": {
@@ -63,24 +57,18 @@
     },
     "default": {
       "oauth.extensions.token_generator": "org.wso2.carbon.identity.oauth2.token.OauthTokenIssuerImpl",
-      "enabled_global_handlers": [
-        "external_call_logger",
-        "open_tracing"
-      ],
-      "synapse_handlers.external_call_logger.name": "externalCallLogger",
-      "synapse_handlers.external_call_logger.class": "org.wso2.carbon.apimgt.gateway.handlers.LogsHandler",
-      "synapse_handlers.open_tracing.name": "open_tracing",
-      "synapse_handlers.open_tracing.class": "org.wso2.carbon.apimgt.gateway.handlers.common.APIMgtLatencySynapseHandler"
+      "synapse_handlers.external_call_logger.enabled": true,
+      "synapse_handlers.open_tracing.enabled": true
     }
   },
   "apim.jwt.encoding": {
     "base64": {
       "apim.jwt.generator_impl": "org.wso2.carbon.apimgt.keymgt.token.JWTGenerator",
-      "apim.jwt.gateway_generator.impl":"org.wso2.carbon.apimgt.gateway.handlers.security.jwt.generator.APIMgtGatewayJWTGeneratorImpl"
+      "apim.jwt.gateway_generator.impl":"org.wso2.carbon.apimgt.common.gateway.jwtgenerator.APIMgtGatewayJWTGeneratorImpl"
     },
     "base64url": {
       "apim.jwt.generator_impl": "org.wso2.carbon.apimgt.keymgt.token.URLSafeJWTGenerator",
-      "apim.jwt.gateway_generator.impl":"org.wso2.carbon.apimgt.gateway.handlers.security.jwt.generator.APIMgtGatewayUrlSafeJWTGeneratorImpl"
+      "apim.jwt.gateway_generator.impl":"org.wso2.carbon.apimgt.common.gateway.jwtgenerator.APIMgtGatewayUrlSafeJWTGeneratorImpl"
     }
   },
   "apim.jwt.enable_user_claims": {
@@ -145,6 +133,13 @@
   "apim.cache_invalidation.enabled": {
     "true": {
       "server.cache.invalidation_impl": "org.wso2.carbon.apimgt.cache.invalidation.APIMgtCacheInvalidationRequestSender"
+    }
+  },
+  "apim.analytics.enable": {
+    "true": {
+      "synapse_handlers.analytics_handler.enabled": true,
+      "synapse_handlers.analytics_handler.name": "analytics_handler",
+      "synapse_handlers.analytics_handler.class": "$ref{apim.analytics.handler_impl}"
     }
   }
 }

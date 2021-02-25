@@ -57,6 +57,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
@@ -116,6 +117,7 @@ public class ExternalIDPJWTTestCase extends APIManagerLifecycleBaseTest {
         waitForKeyManagerDeployment(user.getUserDomain(), KEY_MANAGER_2);
         restAPIStore.mapConsumerKeyWithApplication(consumerKey1, jwtApplicationId, KEY_MANAGER_1);
         restAPIStore.mapConsumerKeyWithApplication(consumerKey2, jwtApplicationId, KEY_MANAGER_2);
+        waitForAPIDeploymentSync(providerName, apiName, apiVersion, APIMIntegrationConstants.IS_API_EXISTS);
     }
 
     private String createAPI(String apiName, String apiContext, List<String> keyManagers)
@@ -301,7 +303,10 @@ public class ExternalIDPJWTTestCase extends APIManagerLifecycleBaseTest {
         restAPIStore.deleteApplication(jwtApplicationId);
         restAPIAdmin.deleteKeyManager(keyManager1Id);
         restAPIAdmin.deleteKeyManager(keyManager2Id);
+        undeployAndDeleteAPIRevisionsUsingRest(apiId, restAPIPublisher);
         restAPIPublisher.deleteAPI(apiId);
+        undeployAndDeleteAPIRevisionsUsingRest(apiIdOnlyKm1, restAPIPublisher);
+        restAPIPublisher.deleteAPI(apiIdOnlyKm1);
         super.cleanUp();
     }
 
@@ -333,14 +338,18 @@ public class ExternalIDPJWTTestCase extends APIManagerLifecycleBaseTest {
                 .setAvailableGrantTypes(Arrays.asList("client_credentials", "password", "implicit", "refresh_token"));
         TokenValidationDTO tokenValidationDTO = new TokenValidationDTO();
         tokenValidationDTO.setEnable(false);
-        keyManagerDTO.addTokenValidationItem(tokenValidationDTO);
+        List<TokenValidationDTO> tokenValidationDTOList = new ArrayList<>();
+        tokenValidationDTOList.add(tokenValidationDTO);
+        keyManagerDTO.setTokenValidation(tokenValidationDTOList);
         keyManagerDTO.setEnableSelfValidationJWT(true);
-        keyManagerDTO.addClaimMappingItem(new ClaimMappingEntryDTO().remoteClaim("http://idp.org/claims/givenname")
+        List<ClaimMappingEntryDTO> claimMappingEntryDTOS = new ArrayList<>();
+        claimMappingEntryDTOS.add(new ClaimMappingEntryDTO().remoteClaim("http://idp.org/claims/givenname")
                 .localClaim("http://wso2.org/claims/givenname"));
-        keyManagerDTO.addClaimMappingItem(new ClaimMappingEntryDTO().remoteClaim("http://idp.org/claims/firstname")
+        claimMappingEntryDTOS.add(new ClaimMappingEntryDTO().remoteClaim("http://idp.org/claims/firstname")
                 .localClaim("http://wso2.org/claims/firstname"));
-        keyManagerDTO.addClaimMappingItem(new ClaimMappingEntryDTO().remoteClaim("http://idp.org/claims/email")
+        claimMappingEntryDTOS.add(new ClaimMappingEntryDTO().remoteClaim("http://idp.org/claims/email")
                 .localClaim("http://wso2.org/claims/email"));
+        keyManagerDTO.setClaimMapping(claimMappingEntryDTOS);
         org.wso2.am.integration.clients.admin.ApiResponse<KeyManagerDTO>
                 keyManagerDTOApiResponse = restAPIAdmin.addKeyManager(keyManagerDTO);
         KeyManagerDTO retrievedData = keyManagerDTOApiResponse.getData();
@@ -366,14 +375,18 @@ public class ExternalIDPJWTTestCase extends APIManagerLifecycleBaseTest {
                 .setAvailableGrantTypes(Arrays.asList("client_credentials", "password", "implicit", "refresh_token"));
         TokenValidationDTO tokenValidationDTO = new TokenValidationDTO();
         tokenValidationDTO.setEnable(false);
-        keyManagerDTO.addTokenValidationItem(tokenValidationDTO);
+        List<TokenValidationDTO> tokenValidationDTOList = new ArrayList<>();
+        tokenValidationDTOList.add(tokenValidationDTO);
+        keyManagerDTO.setTokenValidation(tokenValidationDTOList);
         keyManagerDTO.setEnableSelfValidationJWT(true);
-        keyManagerDTO.addClaimMappingItem(new ClaimMappingEntryDTO().remoteClaim("http://idp2.org/claims/givenname")
+        List<ClaimMappingEntryDTO> claimMappingEntryDTOS = new ArrayList<>();
+        claimMappingEntryDTOS.add(new ClaimMappingEntryDTO().remoteClaim("http://idp2.org/claims/givenname")
                 .localClaim("http://wso2.org/claims/givenname"));
-        keyManagerDTO.addClaimMappingItem(new ClaimMappingEntryDTO().remoteClaim("http://idp2.org/claims/firstname")
+        claimMappingEntryDTOS.add(new ClaimMappingEntryDTO().remoteClaim("http://idp2.org/claims/firstname")
                 .localClaim("http://wso2.org/claims/firstname"));
-        keyManagerDTO.addClaimMappingItem(new ClaimMappingEntryDTO().remoteClaim("http://idp2.org/claims/email")
+        claimMappingEntryDTOS.add(new ClaimMappingEntryDTO().remoteClaim("http://idp2.org/claims/email")
                 .localClaim("http://wso2.org/claims/email"));
+        keyManagerDTO.setClaimMapping(claimMappingEntryDTOS);
         org.wso2.am.integration.clients.admin.ApiResponse<KeyManagerDTO>
                 keyManagerDTOApiResponse = restAPIAdmin.addKeyManager(keyManagerDTO);
         KeyManagerDTO retrievedData = keyManagerDTOApiResponse.getData();

@@ -1,44 +1,54 @@
 # GraphQlPoliciesApi
 
-All URIs are relative to *https://apis.wso2.com/api/am/publisher/v1*
+All URIs are relative to *https://apis.wso2.com/api/am/publisher/v2*
 
 Method | HTTP request | Description
 ------------- | ------------- | -------------
-[**apisApiIdGraphqlPoliciesComplexityGet**](GraphQlPoliciesApi.md#apisApiIdGraphqlPoliciesComplexityGet) | **GET** /apis/{apiId}/graphql-policies/complexity | Get the complexity related details of an API
-[**apisApiIdGraphqlPoliciesComplexityPut**](GraphQlPoliciesApi.md#apisApiIdGraphqlPoliciesComplexityPut) | **PUT** /apis/{apiId}/graphql-policies/complexity | Update complexity related details of an API
-[**apisApiIdGraphqlPoliciesComplexityTypesGet**](GraphQlPoliciesApi.md#apisApiIdGraphqlPoliciesComplexityTypesGet) | **GET** /apis/{apiId}/graphql-policies/complexity/types | Retrieve types and fields of a GraphQL Schema
+[**getGraphQLPolicyComplexityOfAPI**](GraphQlPoliciesApi.md#getGraphQLPolicyComplexityOfAPI) | **GET** /apis/{apiId}/graphql-policies/complexity | Get the Complexity Related Details of an API
+[**getGraphQLPolicyComplexityTypesOfAPI**](GraphQlPoliciesApi.md#getGraphQLPolicyComplexityTypesOfAPI) | **GET** /apis/{apiId}/graphql-policies/complexity/types | Retrieve Types and Fields of a GraphQL Schema
+[**updateGraphQLPolicyComplexityOfAPI**](GraphQlPoliciesApi.md#updateGraphQLPolicyComplexityOfAPI) | **PUT** /apis/{apiId}/graphql-policies/complexity | Update Complexity Related Details of an API
 
 
-<a name="apisApiIdGraphqlPoliciesComplexityGet"></a>
-# **apisApiIdGraphqlPoliciesComplexityGet**
-> apisApiIdGraphqlPoliciesComplexityGet(apiId)
+<a name="getGraphQLPolicyComplexityOfAPI"></a>
+# **getGraphQLPolicyComplexityOfAPI**
+> GraphQLQueryComplexityInfoDTO getGraphQLPolicyComplexityOfAPI(apiId)
 
-Get the complexity related details of an API
+Get the Complexity Related Details of an API
 
 This operation can be used to retrieve complexity related details belonging to an API by providing the API id. 
 
 ### Example
 ```java
 // Import classes:
-//import org.wso2.am.integration.clients.publisher.api.ApiClient;
-//import org.wso2.am.integration.clients.publisher.api.ApiException;
-//import org.wso2.am.integration.clients.publisher.api.Configuration;
-//import org.wso2.am.integration.clients.publisher.api.auth.*;
-//import org.wso2.am.integration.clients.publisher.api.v1.GraphQlPoliciesApi;
+import org.wso2.am.integration.clients.publisher.api.ApiClient;
+import org.wso2.am.integration.clients.publisher.api.ApiException;
+import org.wso2.am.integration.clients.publisher.api.Configuration;
+import org.wso2.am.integration.clients.publisher.api.auth.*;
+import org.wso2.am.integration.clients.publisher.api.models.*;
+import org.wso2.am.integration.clients.publisher.api.v1.GraphQlPoliciesApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://apis.wso2.com/api/am/publisher/v2");
+    
+    // Configure OAuth2 access token for authorization: OAuth2Security
+    OAuth OAuth2Security = (OAuth) defaultClient.getAuthentication("OAuth2Security");
+    OAuth2Security.setAccessToken("YOUR ACCESS TOKEN");
 
-// Configure OAuth2 access token for authorization: OAuth2Security
-OAuth OAuth2Security = (OAuth) defaultClient.getAuthentication("OAuth2Security");
-OAuth2Security.setAccessToken("YOUR ACCESS TOKEN");
-
-GraphQlPoliciesApi apiInstance = new GraphQlPoliciesApi();
-String apiId = "apiId_example"; // String | **API ID** consisting of the **UUID** of the API. 
-try {
-    apiInstance.apisApiIdGraphqlPoliciesComplexityGet(apiId);
-} catch (ApiException e) {
-    System.err.println("Exception when calling GraphQlPoliciesApi#apisApiIdGraphqlPoliciesComplexityGet");
-    e.printStackTrace();
+    GraphQlPoliciesApi apiInstance = new GraphQlPoliciesApi(defaultClient);
+    String apiId = "apiId_example"; // String | **API ID** consisting of the **UUID** of the API. 
+    try {
+      GraphQLQueryComplexityInfoDTO result = apiInstance.getGraphQLPolicyComplexityOfAPI(apiId);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling GraphQlPoliciesApi#getGraphQLPolicyComplexityOfAPI");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -50,7 +60,7 @@ Name | Type | Description  | Notes
 
 ### Return type
 
-null (empty response body)
+[**GraphQLQueryComplexityInfoDTO**](GraphQLQueryComplexityInfoDTO.md)
 
 ### Authorization
 
@@ -58,94 +68,55 @@ null (empty response body)
 
 ### HTTP request headers
 
- - **Content-Type**: application/json
+ - **Content-Type**: Not defined
  - **Accept**: application/json
 
-<a name="apisApiIdGraphqlPoliciesComplexityPut"></a>
-# **apisApiIdGraphqlPoliciesComplexityPut**
-> apisApiIdGraphqlPoliciesComplexityPut(apiId, body)
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK. Requested complexity details returned.  |  * Content-Type - The content of the body.  <br>  |
+**404** | Not Found. The specified resource does not exist. |  -  |
 
-Update complexity related details of an API
+<a name="getGraphQLPolicyComplexityTypesOfAPI"></a>
+# **getGraphQLPolicyComplexityTypesOfAPI**
+> GraphQLSchemaTypeListDTO getGraphQLPolicyComplexityTypesOfAPI(apiId)
 
-This operation can be used to update complexity details belonging to an API by providing the id of the API. 
-
-### Example
-```java
-// Import classes:
-//import org.wso2.am.integration.clients.publisher.api.ApiClient;
-//import org.wso2.am.integration.clients.publisher.api.ApiException;
-//import org.wso2.am.integration.clients.publisher.api.Configuration;
-//import org.wso2.am.integration.clients.publisher.api.auth.*;
-//import org.wso2.am.integration.clients.publisher.api.v1.GraphQlPoliciesApi;
-
-ApiClient defaultClient = Configuration.getDefaultApiClient();
-
-// Configure OAuth2 access token for authorization: OAuth2Security
-OAuth OAuth2Security = (OAuth) defaultClient.getAuthentication("OAuth2Security");
-OAuth2Security.setAccessToken("YOUR ACCESS TOKEN");
-
-GraphQlPoliciesApi apiInstance = new GraphQlPoliciesApi();
-String apiId = "apiId_example"; // String | **API ID** consisting of the **UUID** of the API. 
-GraphQLQueryComplexityInfoDTO body = new GraphQLQueryComplexityInfoDTO(); // GraphQLQueryComplexityInfoDTO | Role-depth mapping that needs to be added 
-try {
-    apiInstance.apisApiIdGraphqlPoliciesComplexityPut(apiId, body);
-} catch (ApiException e) {
-    System.err.println("Exception when calling GraphQlPoliciesApi#apisApiIdGraphqlPoliciesComplexityPut");
-    e.printStackTrace();
-}
-```
-
-### Parameters
-
-Name | Type | Description  | Notes
-------------- | ------------- | ------------- | -------------
- **apiId** | **String**| **API ID** consisting of the **UUID** of the API.  |
- **body** | [**GraphQLQueryComplexityInfoDTO**](GraphQLQueryComplexityInfoDTO.md)| Role-depth mapping that needs to be added  |
-
-### Return type
-
-null (empty response body)
-
-### Authorization
-
-[OAuth2Security](../README.md#OAuth2Security)
-
-### HTTP request headers
-
- - **Content-Type**: application/json
- - **Accept**: application/json
-
-<a name="apisApiIdGraphqlPoliciesComplexityTypesGet"></a>
-# **apisApiIdGraphqlPoliciesComplexityTypesGet**
-> GraphQLSchemaTypeListDTO apisApiIdGraphqlPoliciesComplexityTypesGet(apiId)
-
-Retrieve types and fields of a GraphQL Schema
+Retrieve Types and Fields of a GraphQL Schema
 
 This operation can be used to retrieve all types and fields of the GraphQL Schema by providing the API id. 
 
 ### Example
 ```java
 // Import classes:
-//import org.wso2.am.integration.clients.publisher.api.ApiClient;
-//import org.wso2.am.integration.clients.publisher.api.ApiException;
-//import org.wso2.am.integration.clients.publisher.api.Configuration;
-//import org.wso2.am.integration.clients.publisher.api.auth.*;
-//import org.wso2.am.integration.clients.publisher.api.v1.GraphQlPoliciesApi;
+import org.wso2.am.integration.clients.publisher.api.ApiClient;
+import org.wso2.am.integration.clients.publisher.api.ApiException;
+import org.wso2.am.integration.clients.publisher.api.Configuration;
+import org.wso2.am.integration.clients.publisher.api.auth.*;
+import org.wso2.am.integration.clients.publisher.api.models.*;
+import org.wso2.am.integration.clients.publisher.api.v1.GraphQlPoliciesApi;
 
-ApiClient defaultClient = Configuration.getDefaultApiClient();
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://apis.wso2.com/api/am/publisher/v2");
+    
+    // Configure OAuth2 access token for authorization: OAuth2Security
+    OAuth OAuth2Security = (OAuth) defaultClient.getAuthentication("OAuth2Security");
+    OAuth2Security.setAccessToken("YOUR ACCESS TOKEN");
 
-// Configure OAuth2 access token for authorization: OAuth2Security
-OAuth OAuth2Security = (OAuth) defaultClient.getAuthentication("OAuth2Security");
-OAuth2Security.setAccessToken("YOUR ACCESS TOKEN");
-
-GraphQlPoliciesApi apiInstance = new GraphQlPoliciesApi();
-String apiId = "apiId_example"; // String | **API ID** consisting of the **UUID** of the API. 
-try {
-    GraphQLSchemaTypeListDTO result = apiInstance.apisApiIdGraphqlPoliciesComplexityTypesGet(apiId);
-    System.out.println(result);
-} catch (ApiException e) {
-    System.err.println("Exception when calling GraphQlPoliciesApi#apisApiIdGraphqlPoliciesComplexityTypesGet");
-    e.printStackTrace();
+    GraphQlPoliciesApi apiInstance = new GraphQlPoliciesApi(defaultClient);
+    String apiId = "apiId_example"; // String | **API ID** consisting of the **UUID** of the API. 
+    try {
+      GraphQLSchemaTypeListDTO result = apiInstance.getGraphQLPolicyComplexityTypesOfAPI(apiId);
+      System.out.println(result);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling GraphQlPoliciesApi#getGraphQLPolicyComplexityTypesOfAPI");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
 }
 ```
 
@@ -165,6 +136,81 @@ Name | Type | Description  | Notes
 
 ### HTTP request headers
 
+ - **Content-Type**: Not defined
+ - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | OK. Types and fields returned successfully.  |  * Content-Type - The content of the body.  <br>  |
+**404** | Not Found. The specified resource does not exist. |  -  |
+
+<a name="updateGraphQLPolicyComplexityOfAPI"></a>
+# **updateGraphQLPolicyComplexityOfAPI**
+> updateGraphQLPolicyComplexityOfAPI(apiId, graphQLQueryComplexityInfoDTO)
+
+Update Complexity Related Details of an API
+
+This operation can be used to update complexity details belonging to an API by providing the id of the API. 
+
+### Example
+```java
+// Import classes:
+import org.wso2.am.integration.clients.publisher.api.ApiClient;
+import org.wso2.am.integration.clients.publisher.api.ApiException;
+import org.wso2.am.integration.clients.publisher.api.Configuration;
+import org.wso2.am.integration.clients.publisher.api.auth.*;
+import org.wso2.am.integration.clients.publisher.api.models.*;
+import org.wso2.am.integration.clients.publisher.api.v1.GraphQlPoliciesApi;
+
+public class Example {
+  public static void main(String[] args) {
+    ApiClient defaultClient = Configuration.getDefaultApiClient();
+    defaultClient.setBasePath("https://apis.wso2.com/api/am/publisher/v2");
+    
+    // Configure OAuth2 access token for authorization: OAuth2Security
+    OAuth OAuth2Security = (OAuth) defaultClient.getAuthentication("OAuth2Security");
+    OAuth2Security.setAccessToken("YOUR ACCESS TOKEN");
+
+    GraphQlPoliciesApi apiInstance = new GraphQlPoliciesApi(defaultClient);
+    String apiId = "apiId_example"; // String | **API ID** consisting of the **UUID** of the API. 
+    GraphQLQueryComplexityInfoDTO graphQLQueryComplexityInfoDTO = new GraphQLQueryComplexityInfoDTO(); // GraphQLQueryComplexityInfoDTO | Role-depth mapping that needs to be added
+    try {
+      apiInstance.updateGraphQLPolicyComplexityOfAPI(apiId, graphQLQueryComplexityInfoDTO);
+    } catch (ApiException e) {
+      System.err.println("Exception when calling GraphQlPoliciesApi#updateGraphQLPolicyComplexityOfAPI");
+      System.err.println("Status code: " + e.getCode());
+      System.err.println("Reason: " + e.getResponseBody());
+      System.err.println("Response headers: " + e.getResponseHeaders());
+      e.printStackTrace();
+    }
+  }
+}
+```
+
+### Parameters
+
+Name | Type | Description  | Notes
+------------- | ------------- | ------------- | -------------
+ **apiId** | **String**| **API ID** consisting of the **UUID** of the API.  |
+ **graphQLQueryComplexityInfoDTO** | [**GraphQLQueryComplexityInfoDTO**](GraphQLQueryComplexityInfoDTO.md)| Role-depth mapping that needs to be added | [optional]
+
+### Return type
+
+null (empty response body)
+
+### Authorization
+
+[OAuth2Security](../README.md#OAuth2Security)
+
+### HTTP request headers
+
  - **Content-Type**: application/json
  - **Accept**: application/json
+
+### HTTP response details
+| Status code | Description | Response headers |
+|-------------|-------------|------------------|
+**200** | Created. Complexity details created successfully.  |  -  |
+**404** | Not Found. The specified resource does not exist. |  -  |
 
